@@ -1,0 +1,19 @@
+- hosts: localhost
+  pre_tasks:
+    - name: Update cache
+      become: true
+      apt:
+        update_cache: true
+      tags:
+      - terminal
+      - nvim
+      - node
+      - dotfiles
+      - python
+  tasks:
+  - include_tasks: tasks/terminal.yml
+  - include_tasks: tasks/dotfiles.yml
+  - include_tasks: tasks/node.yml
+  - include_tasks: tasks/nvim.yml
+  - include_tasks: tasks/python.yml
+

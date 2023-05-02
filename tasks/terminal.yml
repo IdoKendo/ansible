@@ -1,0 +1,25 @@
+- name: Install Starship.rs
+  shell: curl -sS https://starship.rs/install.sh | sh -s -- -y
+  tags:
+    - terminal
+- name: Add Starship.rs to .bashrc
+  lineinfile:
+    dest: "{{ lookup('env', 'HOME') }}/.bashrc"
+    state: present
+    create: yes
+    line: "{{ item }}"
+  with_items:
+    - 'eval "$(starship init bash)"'
+  tags:
+    - terminal
+- name: Install tmux
+  become: true
+  apt: name=tmux
+  tags:
+    - terminal
+- name: Install TPM
+  ansible.builtin.git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: "{{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"
+  tags:
+    - terminal

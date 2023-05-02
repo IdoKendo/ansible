@@ -1,0 +1,30 @@
+- name: Install dotfiles dependencies
+  become: true
+  apt:
+    name: ["stow", "fzf"]
+  tags:
+    - dotfiles
+- name: Cloning dotfiles
+  ansible.builtin.git:
+    repo: git@github.com:IdoKendo/dotfiles.git
+    dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
+    recursive: yes
+    update: yes
+    accept_hostkey: yes
+    version: main
+  tags:
+    - dotfiles
+- name: Stow the dotfiles
+  shell: cd $HOME/.dotfiles && stow nvim && stow tmux && stow starship
+  tags:
+    - dotfiles
+- name: Add tmux session.sh to .bashrc
+  lineinfile:
+    dest: "{{ lookup('env', 'HOME') }}/.bashrc"
+    state: present
+    create: yes
+    line: "{{ item }}"
+  with_items:
+    - 'bind -x ''"\C-f": "~/session.sh"'''
+  tags:
+    - dotfiles

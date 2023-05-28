@@ -3,14 +3,20 @@
   tags:
     - rust
 - name: Install exa
-  shell: "source {{ lookup('env', 'HOME') }}/.cargo/env && cargo install exa"
+  community.general.cargo:
+    name: exa
+    state: latest
   tags:
     - rust
 - name: Install bat
-  shell: "source {{ lookup('env', 'HOME') }}/.cargo/env && cargo install bat"
+  community.general.cargo:
+    name: bat
+    state: latest
   tags:
     - rust
 - name: Install gitui
-  shell: "source {{ lookup('env', 'HOME') }}/.cargo/env && cargo install gitui"
+  community.general.cargo:
+    name: gitui
+    state: latest
   tags:
     - rust

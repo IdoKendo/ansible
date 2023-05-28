@@ -1,0 +1,16 @@
+- name: Install rust
+  shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
+  tags:
+    - rust
+- name: Install exa
+  shell: "source {{ lookup('env', 'HOME') }}/.cargo/env && cargo install exa"
+  tags:
+    - rust
+- name: Install bat
+  shell: "source {{ lookup('env', 'HOME') }}/.cargo/env && cargo install bat"
+  tags:
+    - rust
+- name: Install gitui
+  shell: "source {{ lookup('env', 'HOME') }}/.cargo/env && cargo install gitui"
+  tags:
+    - rust

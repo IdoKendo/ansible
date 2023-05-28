@@ -1,0 +1,22 @@
+- name: Install rust
+  shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
+  tags:
+    - rust
+- name: Install exa
+  community.general.cargo:
+    name: exa
+    state: latest
+  tags:
+    - rust
+- name: Install bat
+  community.general.cargo:
+    name: bat
+    state: latest
+  tags:
+    - rust
+- name: Install gitui
+  community.general.cargo:
+    name: gitui
+    state: latest
+  tags:
+    - rust

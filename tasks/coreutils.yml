@@ -1,0 +1,14 @@
+- name: ripgrep is present
+  package:
+    name: ripgrep
+    state: present
+- name: fd is present (linux)
+  when: ansible_pkg_mgr == 'apt'
+  package:
+    name: fd-find
+    state: present
+- name: fd is present (macOS)
+  when: ansible_os_family == 'Darwin'
+  package:
+    name: fd
+    state: present

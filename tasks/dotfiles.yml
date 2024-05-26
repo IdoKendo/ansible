@@ -1,10 +1,23 @@
-- name: Install dotfiles dependencies
-  become: true
-  apt:
-    name: ["stow", "fzf"]
+- name: stow is present
+  package:
+    name: stow
+    state: present
   tags:
     - dotfiles
-- name: Cloning dotfiles
+- name: fzf is present
+  package:
+    name: fzf
+    state: present
+  tags:
+    - dotfiles
+- name: github.com is a known host
+  lineinfile:
+    dest: $HOME/.ssh/known_hosts
+    create: yes
+    state: present
+    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+    regexp: "^github\\.com"
+- name: dotfiles repo is cloned
   ansible.builtin.git:
     repo: git@github.com:IdoKendo/dotfiles.git
     dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
@@ -14,17 +27,7 @@
     version: main
   tags:
     - dotfiles
-- name: Stow the dotfiles
-  shell: cd $HOME/.dotfiles && stow nvim && stow tmux && stow starship
-  tags:
-    - dotfiles
-- name: Add tmux session.sh to .bashrc
-  lineinfile:
-    dest: "{{ lookup('env', 'HOME') }}/.bashrc"
-    state: present
-    create: yes
-    line: "{{ item }}"
-  with_items:
-    - 'bind -x ''"\C-f": "~/session.sh"'''
+- name: dotfiles folders are stowed
+  shell: cd $HOME/.dotfiles && for dir in */; do stow "$dir"; done
   tags:
     - dotfiles

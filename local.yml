@@ -1,7 +1,12 @@
-- hosts: localhost
+- name: IdoKendo
+  hosts: localhost
+  connection: local
+  vars:
+    should_be_root: "{{ False if ansible_os_family == 'Darwin' else True }}"
   pre_tasks:
     - name: Update cache
-      become: true
+      when: ansible_os_family != 'Darwin'
+      become: "{{ should_be_root }}"
       apt:
         update_cache: true
       tags:
@@ -13,6 +18,7 @@
       - rust
       - fastfetch
   tasks:
+  - include_tasks: tasks/coreutils.yml
   - include_tasks: tasks/terminal.yml
   - include_tasks: tasks/dotfiles.yml
   - include_tasks: tasks/node.yml
@@ -20,4 +26,3 @@
   - include_tasks: tasks/python.yml
   - include_tasks: tasks/rust.yml
   - include_tasks: tasks/fastfetch.yml
-

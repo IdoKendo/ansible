@@ -11,6 +11,7 @@
       - dotfiles
       - python
       - rust
+      - fastfetch
   tasks:
   - include_tasks: tasks/terminal.yml
   - include_tasks: tasks/dotfiles.yml
@@ -18,4 +19,5 @@
   - include_tasks: tasks/nvim.yml
   - include_tasks: tasks/python.yml
   - include_tasks: tasks/rust.yml
+  - include_tasks: tasks/fastfetch.yml
 
